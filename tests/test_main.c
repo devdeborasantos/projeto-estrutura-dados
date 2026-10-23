@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "bst.h"
+#include "grafo.h"
 #include "lista.h"
 #include "fila.h"
 #include "pilha.h"
@@ -197,11 +198,99 @@ static void teste_ordenacao(void) {
     bst_liberar(&b);
 }
 
+/* ------------------------------ Grafo e BFS ------------------------------ */
+static void teste_grafo(void) {
+    Grafo g; grafo_init(&g);
+    int r = 0;
+    for (int i = 1; i <= 4; i++) grafo_criar_vertice(&g, i);
+    check_int("Grafo", "4 vertices criados", 4, grafo_num_vertices(&g));
+    check_int("Grafo", "vertice duplicado rejeitado", GR_VERTICE_DUPLICADO, grafo_criar_vertice(&g, 2));
+    check_int("Grafo", "ID zero invalido", GR_ID_INVALIDO, grafo_criar_vertice(&g, 0));
+    check_int("Grafo", "aresta (1,2) criada", GR_OK, grafo_add_aresta(&g, 1, 2));
+    check_int("Grafo", "duplicata (2,1) rejeitada", GR_ARESTA_DUPLICADA, grafo_add_aresta(&g, 2, 1));
+    check_int("Grafo", "duplicata (1,2) rejeitada", GR_ARESTA_DUPLICADA, grafo_add_aresta(&g, 1, 2));
+    check_int("Grafo", "laco (3,3) rejeitado", GR_LACO, grafo_add_aresta(&g, 3, 3));
+    check_int("Grafo", "conexao com ID inexistente", GR_VERTICE_INEXISTENTE, grafo_add_aresta(&g, 1, 99));
+    check_int("Grafo", "remover aresta inexistente (3,4)", GR_ARESTA_INEXISTENTE, grafo_remover_aresta(&g, 3, 4));
+    check_int("Grafo", "remover aresta com ID inexistente", GR_VERTICE_INEXISTENTE, grafo_remover_aresta(&g, 3, 99));
+    grafo_conectados(&g, 2, 1, &r);
+    check_int("Grafo", "conexao direta simetrica (2,1)", 1, r);
+    check_int("Grafo", "conexao direta c/ ID inexistente", GR_VERTICE_INEXISTENTE, grafo_conectados(&g, 1, 99, &r));
+    check_int("Grafo", "remover aresta (2,1)", GR_OK, grafo_remover_aresta(&g, 2, 1));
+    grafo_conectados(&g, 1, 2, &r);
+    check_int("Grafo", "aresta removida nos dois sentidos", 0, r);
+
+    grafo_add_aresta(&g, 1, 2); grafo_add_aresta(&g, 1, 3); grafo_add_aresta(&g, 1, 4);
+    check_int("Grafo", "remover vertice com varias arestas", GR_OK, grafo_remover_vertice(&g, 1));
+    check_int("Grafo", "vertice 1 nao existe mais", 0, grafo_existe(&g, 1));
+    check_int("Grafo", "restam 3 vertices", 3, grafo_num_vertices(&g));
+    check_int("Grafo", "arestas incidentes removidas", GR_VERTICE_INEXISTENTE, grafo_conectados(&g, 2, 1, &r));
+    check_int("Grafo", "remover vertice inexistente", GR_VERTICE_INEXISTENTE, grafo_remover_vertice(&g, 1));
+
+    grafo_criar_vertice(&g, 1);
+    grafo_conectados(&g, 1, 2, &r);
+    check_int("Grafo", "ID recriado nao herda arestas antigas", 0, r);
+
+    /* capacidade fixa de 100 */
+    Grafo c; grafo_init(&c);
+    int ok = 0;
+    for (int i = 1; i <= 100; i++) ok += (grafo_criar_vertice(&c, i * 7) == GR_OK);   /* IDs arbitrarios */
+    check_int("Grafo", "100 vertices com IDs arbitrarios", 100, ok);
+    check_int("Grafo", "101o vertice rejeitado (cheio)", GR_CHEIO, grafo_criar_vertice(&c, 5000));
+    check_int("Grafo", "continua com 100", 100, grafo_num_vertices(&c));
+    grafo_remover_vertice(&c, 70);
+    check_int("Grafo", "apos remover 1, slot reaproveitado", GR_OK, grafo_criar_vertice(&c, 5000));
+}
+
+static void teste_bfs(void) {
+    Grafo g; grafo_init(&g);
+    int ordem_cad[] = {10, 5, 20, 1, 7, 99, 50, 51};
+    for (int i = 0; i < 8; i++) grafo_criar_vertice(&g, ordem_cad[i]);
+    grafo_add_aresta(&g, 10, 20); grafo_add_aresta(&g, 10, 5);
+    grafo_add_aresta(&g, 10, 1);  grafo_add_aresta(&g, 5, 7);
+    grafo_add_aresta(&g, 50, 51);
+
+    char buf[512];
+    int viz[GRAFO_MAX];
+    int nv = grafo_vizinhos(&g, 10, viz, GRAFO_MAX);
+    check_int("BFS", "vizinhos de 10: quantidade", 3, nv);
+    check_int("BFS", "vizinhos em ordem crescente (1,5,20)", 1 * 10000 + 5 * 100 + 20, viz[0] * 10000 + viz[1] * 100 + viz[2]);
+
+    Lista l; lista_init(&l);
+    check_int("BFS", "origem existente", GR_OK, grafo_bfs(&g, 10, &l));
+    lista_str(&l, buf);
+    check_str("BFS", "ordem: vizinhos crescentes por ID, origem incluida", "10 1 5 20 7 ", buf);
+    check_int("BFS", "componente desconectado nao aparece (50)", 0, lista_contem(&l, 50));
+    lista_liberar(&l);
+
+    lista_init(&l);
+    grafo_bfs(&g, 99, &l);
+    lista_str(&l, buf);
+    check_str("BFS", "origem isolada produz so o proprio ID", "99 ", buf);
+    lista_liberar(&l);
+
+    lista_init(&l);
+    check_int("BFS", "origem inexistente => erro", GR_VERTICE_INEXISTENTE, grafo_bfs(&g, 12345, &l));
+    check_int("BFS", "origem inexistente => lista vazia", 0, l.tamanho);
+    lista_liberar(&l);
+
+    int r = -1;
+    grafo_existe_caminho(&g, 10, 7, &r);
+    check_int("Caminho", "existe caminho 10 -> 7", 1, r);
+    grafo_existe_caminho(&g, 7, 20, &r);
+    check_int("Caminho", "existe caminho 7 -> 20 (indireto)", 1, r);
+    grafo_existe_caminho(&g, 10, 51, &r);
+    check_int("Caminho", "nao existe caminho 10 -> 51", 0, r);
+    check_int("Caminho", "ID ausente => erro, nao 'falso'", GR_VERTICE_INEXISTENTE, grafo_existe_caminho(&g, 10, 4242, &r));
+}
+
 int main(void) {
     teste_bst();
     teste_lista_fila();
     teste_pilha();
     teste_ordenacao();
+    teste_grafo();
+    teste_bfs();
     printf("\n==== %d testes, %d falha(s) ====\n", total, falhas);
     return falhas ? 1 : 0;
 }
