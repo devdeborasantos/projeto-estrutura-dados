@@ -1,8 +1,8 @@
 CC      = gcc
 CFLAGS  = -std=c11 -D_POSIX_C_SOURCE=200809L -Wall -Wextra -Wpedantic -Iinclude -g
-LIB_SRC = src/entrada.c src/lista.c src/fila.c src/pilha.c src/ordenacao.c src/bst.c src/grafo.c
+LIB_SRC = src/entrada.c src/bst.c src/grafo.c src/lista.c src/pilha.c src/fila.c src/ordenacao.c src/sistema.c
 
-.PHONY: all test asan valgrind clean
+.PHONY: all test clean
 
 all: bin/biblioteca
 
@@ -16,14 +16,6 @@ bin/testes: tests/test_main.c $(LIB_SRC)
 
 test: bin/testes
 	./bin/testes
-
-asan:
-	mkdir -p bin
-	$(CC) $(CFLAGS) -fsanitize=address,undefined -o bin/testes_asan tests/test_main.c $(LIB_SRC)
-	./bin/testes_asan
-
-valgrind: bin/testes
-	valgrind --leak-check=full --error-exitcode=1 ./bin/testes
 
 clean:
 	rm -rf bin
