@@ -1,7 +1,8 @@
 # Projeto Prático - Estrutura de Dados (FATEC Ribeirão Preto, ADS 3º sem.)
 
 **Tema escolhido:** C - Biblioteca (livros e relacionamentos)  
-**Linguagem:** C  **Aluna:**  Débora Santos  
+**Linguagem:** C  
+**Aluna:**  Débora Santos  
 
 Aplicação de terminal que integra TADs, ponteiros, lista encadeada, pilha, fila,
 ordenação (Merge Sort próprio), BST indexada por ID e grafo não direcionado.

@@ -1,0 +1,136 @@
+EXECUÇÃO DOS TESTES:
+
+./bin/testes
+[PASS] BST        inserir 7 IDs distintos                                    esperado=7 obtido=7
+[PASS] BST        ID duplicado rejeitado                                     esperado=-1 obtido=-1
+[PASS] BST        tamanho apos duplicado                                     esperado=7 obtido=7
+[PASS] BST        em-ordem                                                   esperado="20 30 40 50 60 70 80 " obtido="20 30 40 50 60 70 80 "
+[PASS] BST        busca existente (60)                                       esperado=1 obtido=1
+[PASS] BST        busca ausente (65)                                         esperado=0 obtido=0
+[PASS] BST        menor ID                                                   esperado=20 obtido=20
+[PASS] BST        maior ID                                                   esperado=80 obtido=80
+[PASS] BST        remover ID inexistente (999)                               esperado=-3 obtido=-3
+[PASS] BST        tamanho inalterado apos remocao invalida                   esperado=7 obtido=7
+[PASS] BST        remover folha (20)                                         esperado="30 40 50 60 70 80 " obtido="30 40 50 60 70 80 "
+[PASS] BST        remover no com 1 filho (30)                                esperado="40 50 60 70 80 " obtido="40 50 60 70 80 "
+[PASS] BST        remover no com 2 filhos (70)                               esperado="40 50 60 80 " obtido="40 50 60 80 "
+[PASS] BST        remover raiz com 2 filhos (50)                             esperado="40 60 80 " obtido="40 60 80 "
+[PASS] BST        tamanho final                                              esperado=3 obtido=3
+[PASS] BST        degeneracao (IDs crescentes): altura = n                   esperado=10 obtido=10
+[PASS] BST        ID zero invalido                                           esperado=-1 obtido=-1
+[PASS] BST        ID negativo invalido                                       esperado=-1 obtido=-1
+[PASS] BST        nada inserido com IDs invalidos                            esperado=0 obtido=0
+[PASS] Integr.    cadastro cria vertice                                      esperado=1 obtido=1
+[PASS] Integr.    remocao: retorno                                           esperado=0 obtido=0
+[PASS] Integr.    remocao: sumiu da BST                                      esperado=0 obtido=0
+[PASS] Integr.    remocao: vertice removido                                  esperado=0 obtido=0
+[PASS] Integr.    remocao: demais vertices intactos                          esperado=2 obtido=2
+[PASS] Integr.    remover ID inexistente rejeitado                           esperado=-7 obtido=-7
+[PASS] Integr.    estado inalterado (BST=2)                                  esperado=2 obtido=2
+[PASS] Integr.    recadastro de ID nao herda arestas antigas                 esperado=0 obtido=0
+[PASS] Integr.    falha simulada de vertice => erro                          esperado=-6 obtido=-6
+[PASS] Integr.    rollback: BST sem o registro                               esperado=0 obtido=0
+[PASS] Integr.    rollback: tamanho BST preservado                           esperado=3 obtido=3
+[PASS] Integr.    rollback: sem vertice criado                               esperado=0 obtido=0
+[PASS] Integr.    falha simulada na remocao => erro                          esperado=-11 obtido=-11
+[PASS] Integr.    rollback remocao: registro continua na BST                 esperado=1 obtido=1
+[PASS] Integr.    rollback remocao: vertice restaurado                       esperado=1 obtido=1
+[PASS] Integr.    rollback remocao: aresta 20-30 restaurada                  esperado=1 obtido=1
+[PASS] Integr.    rollback remocao: aresta 20-10 restaurada                  esperado=1 obtido=1
+[PASS] Integr.    100 cadastros aceitos                                      esperado=100 obtido=100
+[PASS] Integr.    101o cadastro rejeitado (capacidade)                       esperado=-5 obtido=-5
+[PASS] Integr.    101o: sem registro parcial na BST                          esperado=0 obtido=0
+[PASS] Integr.    BST continua com 100                                       esperado=100 obtido=100
+[PASS] Integr.    apos remover 1, novo cadastro cabe                         esperado=0 obtido=0
+[PASS] Grafo      aresta (1,2) criada                                        esperado=0 obtido=0
+[PASS] Grafo      duplicata (2,1) rejeitada                                  esperado=-9 obtido=-9
+[PASS] Grafo      duplicata (1,2) rejeitada                                  esperado=-9 obtido=-9
+[PASS] Grafo      laco (3,3) rejeitado                                       esperado=-8 obtido=-8
+[PASS] Grafo      conexao com ID inexistente                                 esperado=-7 obtido=-7
+[PASS] Grafo      remover aresta inexistente (3,4)                           esperado=-10 obtido=-10
+[PASS] Grafo      remover aresta com ID inexistente                          esperado=-7 obtido=-7
+[PASS] Grafo      conexao direta simetrica (2,1)                             esperado=1 obtido=1
+[PASS] Grafo      conexao direta c/ ID inexistente                           esperado=-7 obtido=-7
+[PASS] Grafo      remover aresta (2,1) existente                             esperado=0 obtido=0
+[PASS] Grafo      aresta removida nos dois sentidos                          esperado=0 obtido=0
+[PASS] Grafo      remover vertice com varias arestas                         esperado=0 obtido=0
+[PASS] Grafo      vertice 2 sem aresta para 1                                esperado=-7 obtido=-7
+[PASS] Grafo      2 ficou isolado (alcancaveis=1)                            esperado=1 obtido=1
+[PASS] BFS        origem existente                                           esperado=0 obtido=0
+[PASS] BFS        ordem: vizinhos crescentes por ID, origem incluida         esperado="10 1 5 20 7 " obtido="10 1 5 20 7 "
+[PASS] BFS        origem isolada produz so o proprio ID                      esperado="99 " obtido="99 "
+[PASS] BFS        componente desconectado nao aparece (50)                   esperado=0 obtido=0
+[PASS] BFS        origem inexistente => mensagem                             esperado=-7 obtido=-7
+[PASS] BFS        origem inexistente => lista vazia                          esperado=0 obtido=0
+[PASS] Caminho    existe caminho 10 -> 7                                     esperado=1 obtido=1
+[PASS] Caminho    existe caminho 7 -> 20 (indireto)                          esperado=1 obtido=1
+[PASS] Caminho    nao existe caminho 10 -> 51                                esperado=0 obtido=0
+[PASS] Caminho    ID ausente => mensagem, nao 'falso'                        esperado=-7 obtido=-7
+[PASS] Lista      insercao no fim preserva ordem                             esperado="3 1 2 " obtido="3 1 2 "
+[PASS] Fila       desenfileirar fila vazia                                   esperado=-1 obtido=-1
+[PASS] Fila       FIFO: primeiro a sair                                      esperado=7 obtido=7
+[PASS] Pilha      pop em pilha vazia                                         esperado=-1 obtido=-1
+[PASS] Pilha      peek em pilha vazia                                        esperado=-1 obtido=-1
+[PASS] Pilha      consulta em pilha vazia                                    esperado=0 obtido=0
+[PASS] Pilha      menos de cinco: retorna 3                                  esperado=3 obtido=3
+[PASS] Pilha      mais recente primeiro                                      esperado=3 obtido=3
+[PASS] Pilha      mais de cinco: limita a 5                                  esperado=5 obtido=5
+[PASS] Pilha      mais de cinco: topo = 9                                    esperado=9 obtido=9
+[PASS] Pilha      mais de cinco: quinta = 5                                  esperado=5 obtido=5
+[PASS] Pilha      consulta nao destrutiva (tamanho 9)                        esperado=9 obtido=9
+[PASS] Pilha      peek devolve topo sem remover                              esperado=9 obtido=9
+[PASS] Pilha      tamanho apos peek                                          esperado=9 obtido=9
+[PASS] Pilha      pop devolve topo                                           esperado=9 obtido=9
+[PASS] Pilha      tamanho apos pop                                           esperado=8 obtido=8
+       (saida de pilha_imprimir_ultimas:)
+1. CADASTRO     id=8
+2. CADASTRO     id=7
+3. CADASTRO     id=6
+4. CADASTRO     id=5
+5. CADASTRO     id=4
+[PASS] Pilha      historico: 2 cadastros + add + rem + remocao = 5           esperado=5 obtido=5
+[PASS] Pilha      topo = remocao do ID 2                                     esperado=2 obtido=2
+       saida exibida: Abacaxi#2 Banana#1 Cereja#3 
+[PASS] Ordenacao  vetor desordenado                                          esperado="Abacaxi#2 Banana#1 Cereja#3 " obtido="Abacaxi#2 Banana#1 Cereja#3 "
+[PASS] Ordenacao  BST intacta (ordem de IDs igual)                           esperado="1 2 3 " obtido="1 2 3 "
+[PASS] Ordenacao  BST intacta (tamanho)                                      esperado=3 obtido=3
+       saida exibida: A#1 B#2 C#3 
+[PASS] Ordenacao  vetor ja ordenado                                          esperado="A#1 B#2 C#3 " obtido="A#1 B#2 C#3 "
+       saida exibida: A#3 B#2 C#1 
+[PASS] Ordenacao  vetor invertido                                            esperado="A#3 B#2 C#1 " obtido="A#3 B#2 C#1 "
+       saida exibida: Mesmo#10 Mesmo#20 Mesmo#30 
+[PASS] Ordenacao  empate textual: desempate por ID                           esperado="Mesmo#10 Mesmo#20 Mesmo#30 " obtido="Mesmo#10 Mesmo#20 Mesmo#30 "
+       saida exibida: ABC#3 Abc#2 abc#1 
+[PASS] Ordenacao  maiusculas antes de minusculas (strcmp)                    esperado="ABC#3 Abc#2 abc#1 " obtido="ABC#3 Abc#2 abc#1 "
+[PASS] Ordenacao  base vazia: retorno ok                                     esperado=0 obtido=0
+[PASS] Ordenacao  base vazia: n = 0                                          esperado=0 obtido=0
+[PASS] Entradas   texto vazio                                                esperado=-2 obtido=-2
+[PASS] Entradas   texto so com espacos                                       esperado=-2 obtido=-2
+[PASS] Entradas   texto com espacos internos: aceito                         esperado=0 obtido=0
+[PASS] Entradas   texto com espacos: aparado                                 esperado="Dom Casmurro" obtido="Dom Casmurro"
+[PASS] Entradas   texto com exatamente 79 chars                              esperado=0 obtido=0
+[PASS] Entradas   texto com 80 chars rejeitado                               esperado=-3 obtido=-3
+[PASS] Entradas   linha de 399 chars rejeitada                               esperado=-3 obtido=-3
+[PASS] Entradas   limpeza de buffer: leitura seguinte ok                     esperado=0 obtido=0
+[PASS] Entradas   limpeza de buffer: conteudo correto                        esperado="proximo" obtido="proximo"
+[PASS] Entradas   inteiro lido depois                                        esperado=0 obtido=0
+[PASS] Entradas   valor inteiro                                              esperado=42 obtido=42
+[PASS] Entradas   fim da entrada                                             esperado=-1 obtido=-1
+[PASS] Entradas   numero invalido: letras                                    esperado=-4 obtido=-4
+[PASS] Entradas   numero invalido: sufixo                                    esperado=-4 obtido=-4
+[PASS] Entradas   numero invalido: decimal                                   esperado=-4 obtido=-4
+[PASS] Entradas   numero vazio                                               esperado=-2 obtido=-2
+[PASS] Entradas   ID zero                                                    esperado=-6 obtido=-6
+[PASS] Entradas   ID negativo                                                esperado=-6 obtido=-6
+[PASS] Entradas   overflow (> long)                                          esperado=-5 obtido=-5
+[PASS] Entradas   overflow (> int)                                           esperado=-5 obtido=-5
+[PASS] Entradas   ID valido 5000                                             esperado=0 obtido=0
+[PASS] Entradas   ano 0 fora do intervalo                                    esperado=-6 obtido=-6
+[PASS] Entradas   ano 2027 fora do intervalo                                 esperado=-6 obtido=-6
+[PASS] Entradas   ano 2026 valido                                            esperado=0 obtido=0
+[PASS] Entradas   ano 1 valido                                               esperado=0 obtido=0
+[PASS] Entradas   cadastro com ano 2027 rejeitado                            esperado=-3 obtido=-3
+[PASS] Entradas   cadastro com titulo em branco rejeitado                    esperado=-2 obtido=-2
+[PASS] Entradas   nenhum registro parcial                                    esperado=0 obtido=0
+
+==== 120 testes, 0 falha(s) ====
